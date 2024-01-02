@@ -2,7 +2,7 @@ name: Download Site
 
 env:
   # ENTER SITE DOMAIN HERE. Example: hello.framer.website
-  SITE_DOMAIN: crashpolitics.framer.website
+  SITE_DOMAIN: shawnjerry.framer.website
 
 on:
   # UNCOMMENT THIS TO AUTO-RUN PERIODICALLY. DEFAULT IS EVERY 5 MINS
