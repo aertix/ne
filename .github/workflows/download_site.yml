@@ -1,0 +1,36 @@
+name: Download Site
+
+env:
+  # ENTER SITE DOMAIN HERE. Example: hello.framer.website
+  SITE_DOMAIN: crashpolitics.framer.website
+
+on:
+  # UNCOMMENT THIS TO AUTO-RUN PERIODICALLY. DEFAULT IS EVERY 5 MINS
+  #schedule:
+  # - cron:  '*/5 * * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download site
+        run: wget -m -p -E -k -T 10 -t 5 https://$SITE_DOMAIN && mv -f $SITE_DOMAIN/* . && rm -rf $SITE_DOMAIN/
+        
+      - name: Remove banner
+        run: |
+          sed 's/<\/body>/<style>#__framer-badge-container{display:none;}<\/style><\/body>/g' index.html > no_banner.html
+          mv no_banner.html index.html
+
+      - name: Run a multi-line script
+        run: |
+          git config --global user.name 'Site Downloader'
+          git config --global user.email 'site_downloader@users.noreply.github.com'
+          git add .
+          git commit -am "Automated download of site"
+          git push
